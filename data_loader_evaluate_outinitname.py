@@ -110,12 +110,10 @@ class ImageList(data.Dataset):
         img1_path = self.img_list[index]
         
         img1 = read_img( img1_path )
-        #print("img1_path:",img1_path)
         if self.transform_img is not None:
             img1 = self.transform_img(img1) # [0,1], c x h x w
 
         return img1_path, img1
-        #return  img1
 
     def __len__(self):
         return len(self.img_list)

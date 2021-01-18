@@ -47,8 +47,8 @@ def get_multiPIE_img(img_path):
     bright = token[4]
         
     #img2_path = '/mnt/ficuskuwait/hjwang1/CR-GAN-master/data/multi_PIE_crop_128/' + ID + '/' + ID + '_01_' + status + '_' + view + '_' + bright + '_crop_128.png'
-    img2_path = '/home/hejingwei/whj/multi_PIE_crop_128/' + ID + '/' + ID + '_01_' + status + '_' + view + '_' + bright + '_crop_128.png'
-    img2 = read_img( img2_path )
+    img2_path = '/ssd01/wanghuijiao/F06All/multi_PIE_crop_128/' + ID + '/' + ID + '_01_' + status + '_' + view + '_' + bright + '_crop_128.png'
+    img2 = read_img(img2_path)
     img2 = img2.resize((128,128), Image.ANTIALIAS)
     return view2, img2
 

@@ -9,6 +9,7 @@ dd = pdb.set_trace
 v_siz = 9
 z_siz = 128 - v_siz
 ID_siz = 256
+mbf_siz = 128
 
 class conv_mean_pool(nn.Module):
     def __init__(self, inplanes, outplanes):
@@ -159,7 +160,7 @@ class _G_vzx_withID(nn.Module):
         # inplanes, outplanes, kernel_size, stride, padding
         # H_out = (H_in-1)*stride[0] - 2*padding[0] + kernel_size[0] + output_padding[0]
         # W_out = (W_in-1)*stride[1] - 2*padding[1] + kernel_size[1] + output_padding[1]
-        self.fc = nn.Linear(v_siz+z_siz+ID_siz, 4*4*512) #128+256=384  --> 4*4*512
+        self.fc = nn.Linear(v_siz+z_siz+ID_siz+mbf_siz, 4*4*512) #128+256+128=512  --> 4*4*512
         self.resBlock1 = residualBlock_up(512, 512) #4*4-->8*8
         self.resBlock2 = residualBlock_up(512, 256) #8*8-->16*16
         self.resBlock3 = residualBlock_up(256, 128) #16*16-->32*32
@@ -170,8 +171,8 @@ class _G_vzx_withID(nn.Module):
         self.conv = nn.Conv2d(64, 3, 3, 1, 1)
         self.tanh = nn.Tanh()
 
-    def forward(self, v, z, ID):
-        x = torch.cat((v,z,ID), 1)
+    def forward(self, v, z, ID, mbf_ID):
+        x = torch.cat((v,z,ID, mbf_ID), 1)
         out = self.fc(x) # out: 512*4*4
         out = out.view(-1, 512, 4, 4) # (-1, 512, 4, 4)
         out = self.resBlock1(out)
